@@ -1,30 +1,55 @@
 #include "Vendedor.h"
 
-Cadastro_vendedor::Cadastro_vendedor(string nome_vendedor, string cpf, int chaveAcesso){
-	this->nome_vendedor=nome_vendedor;
+Vendedor::Vendedor(string nome_vendedor, string cpf, int chaveAcesso){
+	this->nome_vendedor = nome_vendedor;
 	this->cpf=cpf;
 	this->chaveAcesso=chaveAcesso;
 }	
-void Cadastro_vendedor:: set_nome(string){
+void Vendedor:: set_nome(string){
 	this->nome_vendedor = nome_vendedor;
 }
-void Cadastro_vendedor::set_cpf(string){
+void Vendedor::set_cpf(string){
 	this->cpf=cpf;
 }
-void Cadastro_vendedor::set_chaveAcesso(int){
+void Vendedor::set_chaveAcesso(int){
 	this->chaveAcesso=chaveAcesso;
 }
 //Metodo para impressao dos dados
-string Cadastro_vendedor::get_nome(){
+string Vendedor::get_nome(){
 	return nome_vendedor;	
 }
-string Cadastro_vendedor::get_cpf(){
+string Vendedor::get_cpf(){
 	return cpf;
 }
-int Cadastro_vendedor::get_chaveAcesso(){
+int Vendedor::get_chaveAcesso(){
 	return chaveAcesso;
 }
-void Cadastro_vendedor::get_imprimavendedor(){
+bool Vendedor::cadastrar_vendedor(Vendedor aux)
+{
+	for (int i = 0; i < Vendedores.size(); i++)
+	{
+		if(Vendedores[i].get_chaveAcesso() == aux.get_chaveAcesso() )
+		{
+			return false;
+		}
+	}
+	Vendedores.push_back(aux);
+	return true;
+}
+bool Vendedor::verifica_login(int chave_acesso)
+{	for (int i = 0; i < Vendedores.size(); i++)
+	{
+		if(Vendedores[i].get_chaveAcesso() == chave_acesso)
+		{
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+}
+void Vendedor::get_imprimavendedor(){
 	cout << "VENDEDOR : " << get_nome() <<endl;
 	cout << "CPF : " << get_cpf() <<endl;
 	cout << "Nº VENDEDOR : " << get_chaveAcesso() <<endl;
