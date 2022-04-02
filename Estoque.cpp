@@ -1,27 +1,92 @@
 #include "Estoque.h"
-#include "Sobrecargas.h"
+#include <vector>
 
 Estoque::Estoque(){
-	lerCordas();
-	lerPercurssao();
+	ifstream arquivo; // arquivo de leitura
+	arquivo.open("Percussao.txt"); // abre arquivo
+
+	string nome_aux, cor_aux, codigo_aux, tipo_aux;
+	float precoVenda_aux, precoFabrica_aux;
+	int quantidade_aux;
+	
+	if(arquivo.is_open())
+	{
+		while(!arquivo.eof())  // enquanto não for fim de arquivo...
+		{
+
+			getline(arquivo, nome_aux);
+
+			if (arquivo.eof()){
+				break;
+
+			getline(arquivo, tipo_aux);
+			getline(arquivo, cor_aux);
+			getline(arquivo, codigo_aux);			
+			arquivo >> precoVenda_aux;
+			arquivo >> precoFabrica_aux;
+			arquivo >> quantidade_aux;
+			
+			Percussao aux(nome_aux, cor_aux, codigo_aux, precoVenda_aux, precoFabrica_aux, quantidade_aux, tipo_aux); //cria um objeto de percussao com os dados lidos no arquivo
+			Lista_Percussao.push_back(aux);  //insere o objeto percussao na lista
+			arquivo.ignore();
+			}
+		}
+		arquivo.close(); //fecha o 
+		ifstream arquivo; // arquivo de leitura
+		
+		arquivo.open("Cordas.txt"); // abre arquivo
+
+		string nome_aux, cor_aux, codigo_aux;
+		float precoVenda_aux, precoFabrica_aux;
+		int quantidade_aux, quantidadecordas_aux;
+	
+		if(arquivo.is_open())
+		{
+			while(!arquivo.eof())  // enquanto não for fim de arquivo...
+			{
+
+				getline(arquivo, nome_aux);
+
+				if (arquivo.eof()){
+					break;
+					
+   				getline(arquivo, cor_aux);
+				getline(arquivo, codigo_aux);
+				arquivo >> precoVenda_aux;
+				arquivo >> precoFabrica_aux;
+				arquivo >> quantidade_aux;
+
+				Cordas aux(nome_aux, cor_aux, codigo_aux, precoVenda_aux, precoFabrica_aux, quantidade_aux, quantidadecordas_aux); //cria um objeto de percussao com os dados lidos no arquivo
+			   	Lista_Cordas.push_back(aux);  //insere o objeto percussao na lista
+				arquivo.ignore();
+				}
+			}
+			arquivo.close(); //fecha o arquivo
+
+		}
+    }
+	else{
+		cout << "Não foi possível abrir o arquivo" << endl;
+	}	
 }
-bool Estoque::inserirPercussao(Percussao p.aux){
-	for (int i = 0;i < Lista_Percurssao.size; i++){
-		if(Lista_percurssao[i].get_codigo() == p.aux.get_codigo()){
+bool Estoque::inserirPercussao(Percussao paux)
+{
+	for (int i = 0;i < Lista_Percussao.size(); i++){
+		if(Lista_Percussao[i].get_codigo() == paux.get_codigo()){
 			return false;
 		}
 	}
-	Lista_Percurssao.size(p.aux);
+	Lista_Percussao.push_back(paux);
 	return true;
 }
 
-bool Estoque::inserirCordas(Cordas c.aux){
-	for (int i = 0;i < Lista_Cordas.size; i++){
-		if(Lista_Cordas[i].get_codigo() == c.aux.get_codigo()){
+bool Estoque::inserirCordas(Cordas caux){
+	for (int i = 0;i < Lista_Cordas.size(); i++){
+		if(Lista_Cordas[i].get_codigo() == caux.get_codigo()){
 			return false;
 		}
 	}
-	Lista_Cordas.size(c.aux);
+	Lista_Cordas.push_back(caux);
 	return true;
 }
 
@@ -33,7 +98,7 @@ bool Estoque::removerPercussao(string codigo){
 			return true;
 		}
 		else{
-			contador++
+			contador++;
 		}
 	}
 	return false;
@@ -47,19 +112,19 @@ bool Estoque::removerCordas(string codigo){
 			return true;
 		}
 		else{
-			contador++
+			contador++;
 		}
 	}
 	return false;
 }
 
-bool Estoque::pesquisarPercussao(string codigo) const{
+bool Estoque::pesquisarPercussao(string codigo) {
 	unsigned contador(0);
 	for(unsigned i(0); i < Lista_Percussao.size(); i++)
 	{
-		if(lista_Percussao[i].get_codigo() == codigo)
+		if(Lista_Percussao[i].get_codigo() == codigo)
 		{
-			lista_percussao[i].imprime();
+			Lista_Percussao[i].imprime();
 			return true;
 		}
 		else{
@@ -73,13 +138,13 @@ bool Estoque::pesquisarPercussao(string codigo) const{
 	
 }
 
-bool Estoque::pesquisarCordas(string codigo) const{
+bool Estoque::pesquisarCordas(string codigo) {
 	unsigned contador(0);
 	for(unsigned i(0); i < Lista_Cordas.size(); i++)
 	{
-		if(lista_Cordas[i].get_codigo() == codigo)
+		if(Lista_Cordas[i].get_codigo() == codigo)
 		{
-			lista_Cordas[i].imprime();
+			Lista_Cordas[i].imprime();
 			return true;
 		}
 		else{
@@ -93,22 +158,24 @@ bool Estoque::pesquisarCordas(string codigo) const{
 	
 }
 
-bool Estoque::salvarPercussao(){
+void Estoque::salvarPercussao(){
+	
 	ofstream arquivo; //arquivo de escrita
 	arquivo.open("Percussao.txt"); // abre arquivo
 
 	if (arquivo.is_open())
 	{
-		for (int i = 0; i < Percussao.size(); i++)
+		for (int i = 0; i < Lista_Percussao.size(); i++)
 		{
-			arquivo << Percussao[i].get_nome() << endl;
-			arquivo << Percussao[i].get_precoVenda() << endl;
-			arquivo << Percussao[i].get_precoFabrica() << endl;
-			arquivo << Percussao[i].get_quantidade() << endl;
-			arquivo << Percussao[i].get_cor() << endl;
-			arquivo << Percussao[i].get_codigo() << endl;
-			arquivo.close(); //fecha arquivo
+			arquivo << Lista_Percussao[i].get_nome() << endl;
+			arquivo << Lista_Percussao[i].get_tipo() << endl;
+			arquivo << Lista_Percussao[i].get_cor() << endl;
+			arquivo << Lista_Percussao[i].get_codigo() << endl;
+			arquivo << Lista_Percussao[i].get_precoVenda() << endl;
+			arquivo << Lista_Percussao[i].get_precoFabrica() << endl;
+			arquivo << Lista_Percussao[i].get_quantidade() << endl;
 		}
+		arquivo.close(); //fecha arquivo
 	}
 	else
 	{
@@ -116,22 +183,23 @@ bool Estoque::salvarPercussao(){
 	}	
 }
 
-bool Estoque::salvarCordas(){
+void Estoque::salvarCordas(){
 	ofstream arquivo; //arquivo de escrita
 	arquivo.open("Cordas.txt"); // abre arquivo
 
 	if (arquivo.is_open())
 	{
-		for (int i = 0; i < Cordas.size(); i++)
+		for (int i = 0; i < Lista_Cordas.size(); i++)
 		{
-			arquivo << Cordas[i].get_nome() << endl;
-			arquivo << Cordas[i].get_precoVenda() << endl;
-			arquivo << Cordas[i].get_precoFabrica() << endl;
-			arquivo << Cordas[i].get_quantidade() << endl;
-			arquivo << Cordas[i].get_cor() << endl;
-			arquivo << Percussao[i].get_codigo() << endl;
-			arquivo.close(); //fecha arquivo
+			arquivo << Lista_Cordas[i].get_nome() << endl;
+			arquivo << Lista_Cordas[i].get_cor() << endl;
+			arquivo << Lista_Cordas[i].get_codigo() << endl;
+			arquivo << Lista_Cordas[i].get_precoVenda() << endl;
+			arquivo << Lista_Cordas[i].get_precoFabrica() << endl;
+			arquivo << Lista_Cordas[i].get_quantidade() << endl;
+			
 		}
+		arquivo.close(); //fecha arquivo
 	}
 	else
 	{
@@ -182,11 +250,11 @@ void Estoque::ordenaCordas(){
 	}
 }
 
-int Estoque::get_indicePercussao(string codigo)
+int Estoque::get_indicePercussao(string codigo) const
 {
 	for(unsigned i(0); i < Lista_Percussao.size(); i++)
 	{
-		if(Lista_Perucssao[i].get_codigo() == codigo)
+		if(Lista_Percussao[i].get_codigo() == codigo)
 		{
 			return i;
 		}
@@ -195,7 +263,7 @@ int Estoque::get_indicePercussao(string codigo)
 	return -1;
 }
 
-int Estoque::get_indiceCordas(string codigo)
+int Estoque::get_indiceCordas(string codigo) const
 {
 	for(unsigned i(0); i < Lista_Cordas.size(); i++)
 	{
@@ -207,17 +275,32 @@ int Estoque::get_indiceCordas(string codigo)
 	
 	return -1;
 }
-
+//
 bool Estoque::set_SaidaEstoquePercussao(string codigo, int quantidade){
 	if(pesquisarPercussao(codigo))
 	{
 		int indice = get_indicePercussao(codigo);
-		cout << quantidade << endl;
-		Lista_Perucssao[i].set_quantidade(Lista_Perucssao[i]get_quantidade()- quantidade);
-		return true;
+		
+		if(Lista_Percussao[indice].get_quantidade() == quantidade)
+		{
+			removerPercussao(codigo);
+			return true;
+			
+		}
+		else if(Lista_Percussao[indice].get_quantidade() > quantidade){
+			Lista_Percussao[indice].set_quantidade(Lista_Percussao[indice].get_quantidade()- quantidade);
+			return true;
+
+		}
+		else if(Lista_Percussao[indice].get_quantidade() < quantidade){
+			return false;
+
+		}
+		else{
+		return false;
+		}
+
 	}
-	
-	return false;
 }
 
 bool Estoque::set_EntradaEstoquePercussao(string codigo, int quantidade)
@@ -225,8 +308,7 @@ bool Estoque::set_EntradaEstoquePercussao(string codigo, int quantidade)
 	if(pesquisarPercussao(codigo))
 	{
 		int indice = get_indicePercussao(codigo);
-		cout << quantidade << endl;
-		Lista_Perucssao[i].set_quantidade(Lista_Perucssao[i]get_quantidade()+ quantidade);
+		Lista_Percussao[indice].set_quantidade(Lista_Percussao[indice].get_quantidade()+ quantidade);
 		return true;
 	}
 	
@@ -238,8 +320,7 @@ bool Estoque::set_EntradaEstoqueCordas(string codigo, int quantidade)
 	if(pesquisarCordas(codigo))
 	{
 		int indice = get_indiceCordas(codigo);
-		cout << quantidade << endl;
-		Lista_Cordas[i].set_quantidade(Lista_Cordas[i]get_quantidade()+ quantidade);
+		Lista_Cordas[indice].set_quantidade(Lista_Cordas[indice].get_quantidade()+ quantidade);
 		return true;
 	}
 	
@@ -247,50 +328,82 @@ bool Estoque::set_EntradaEstoqueCordas(string codigo, int quantidade)
 }
 
 bool Estoque::set_SaidaEstoqueCordas(string codigo, int quantidade)
-	{
-	if(pesquisarCordas(codigo))
+{
+		if(pesquisarCordas(codigo))
 	{
 		int indice = get_indiceCordas(codigo);
-		cout << quantidade << endl;
-		Lista_Cordas[i].set_quantidade(Lista_Cordas[i]get_quantidade()- quantidade);
-		return true;
+		
+		if(Lista_Cordas[indice].get_quantidade() == quantidade)
+		{
+			removerCordas(codigo);
+			return true;
+			
+		}
+		else if(Lista_Cordas[indice].get_quantidade() > quantidade){
+			Lista_Cordas[indice].set_quantidade(Lista_Cordas[indice].get_quantidade()- quantidade);
+			return true;
+
+		}
+		else if(Lista_Cordas[indice].get_quantidade() < quantidade){
+			return false;
+
+		}
+		else{
+			return false;
+		}
+
 	}
-	
-	return false;
 }
 
-
-
-vector <Percussao>Estoque:: get_ListaPercussao() const{
-	return Lista_Percurssao;
-}
-
-vector <Cordas>Estoque:: get_ListaCordas() const{
-	return Lista_Cordas;
-}
-
-void Estoque::imprimePercussao() const
+void Estoque::imprimePercussao()
 {
-	cout << Lista_Percurssao() << endl;
-	for(unsigned i(0); i < Lista_Percurssao.size(); i++)
-	{
-		cout << "===== "<< i+1 << "Â° Livro =====" << endl;
-		Lista_Percurssao[i].imprime();
-		cout << endl;
-	}
+	cout << "Lista de instrumentos de Percussão" << endl << endl;
+		for (int i = 0; i < Lista_Percussao.size(); i++)
+		{
+			Lista_Percussao[i].imprime_percussao();
+			cout << endl;
+		}
 }
 
-void Estoque::imprimeCordas() const
+void Estoque::imprimeCordas() 
 {
-	cout << Lista_Cordas() << endl;
-	for(unsigned i(0); i < Lista_Cordas.size(); i++)
-	{
-		cout << "===== "<< i+1 << "Â° Livro =====" << endl;
-		Lista_Cordas[i].imprime();
-		cout << endl;
-	}
+	cout << "Lista de instrumentos de Cordas" << endl << endl;
+		for (int i = 0; i < Lista_Cordas.size(); i++)
+		{
+			Lista_Cordas[i].imprime_cordas();
+			cout << endl;
+		}
+}
+bool Estoque::verifica_Percussao()
+{
+	return Lista_Percussao.empty();
 }
 
+bool Estoque::verifica_Cordas()
+{
+	return Lista_Cordas.empty();
+}
+
+Percussao Estoque::get_ListaPercussao(string codigo)
+{
+	for (int i = 0; i < Lista_Percussao.size(); i++)
+	{
+		if(Lista_Percussao[i].get_codigo() == codigo)
+		{
+			return Lista_Percussao[i];
+		}	
+	}
+}
+Cordas Estoque::get_ListaCordas(string codigo)
+{
+	for (int i = 0; i < Lista_Cordas.size(); i++)
+	{
+		if(Lista_Cordas[i].get_codigo()== codigo)
+		{
+			return Lista_Cordas[i];
+		}	
+	}
+}
 
 Estoque::~Estoque(){
 	salvarPercussao();
