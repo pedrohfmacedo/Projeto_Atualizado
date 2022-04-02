@@ -1,6 +1,6 @@
 #include "Cliente.h"
 
-Cadastro_cliente::Cadastro_cliente(string nome_completo,string cpf,string contato ,string cep , string rua, string bairro , int numero, string complemento){
+Cliente::Cliente(string nome_completo, string cpf, string contato, string cep, string rua, string bairro , int numero, string complemento){
 	this->nome_completo = nome_completo;
 	this->cpf = cpf;
 	this->contato = contato;
@@ -11,62 +11,75 @@ Cadastro_cliente::Cadastro_cliente(string nome_completo,string cpf,string contat
 	this->complemento = complemento;
 	
 }
-void Cadastro_cliente::set_nome(string nome_completo){
+void Cliente::set_nome(string nome_completo){
 	this->nome_completo = nome_completo;
 }
-void Cadastro_cliente::set_cpf(string cpf){
+void Cliente::set_cpf(string cpf){
 	this->cpf = cpf;
 }
-void Cadastro_cliente::set_contato(string contato){
+void Cliente::set_contato(string contato){
 	this->contato = contato;
 }
-void Cadastro_cliente::set_cep(string cep){
+void Cliente::set_cep(string cep){
 	this->cep = cep;
 }
-void Cadastro_cliente::set_rua(string){
+void Cliente::set_rua(string rua){
 	this->rua = rua;
 }
-void Cadastro_cliente::set_bairro(string bairro){
+void Cliente::set_bairro(string bairro){
 	this->bairro = bairro;
 }
-void Cadastro_cliente::set_numero(int numero){
+void Cliente::set_numero(int numero){
 	this->numero = numero;
 }
-void Cadastro_cliente::set_complemento(string complemento){
+void Cliente::set_complemento(string complemento){
 	this->complemento = complemento;
 }
 //Metodo para impressao dos dados
-string Cadastro_cliente::get_nome(){
+string Cliente::get_nome(){
 	return nome_completo;
 }
-string Cadastro_cliente::get_cpf(){                          
+string Cliente::get_cpf(){                          
 	return cpf;
-	
 }
-string Cadastro_cliente::get_contato(){
+string Cliente::get_contato(){
 	return contato;
 }
-string Cadastro_cliente::get_cep(){
+string Cliente::get_cep(){
 	return cep;
 }
-string Cadastro_cliente::get_rua(){
+string Cliente::get_rua(){
 	return rua;
 }
-string Cadastro_cliente::get_bairro(){
+string Cliente::get_bairro(){
 	return bairro;
 }
-int  Cadastro_cliente::get_numero(){
+int  Cliente::get_numero(){
 	return numero;
 }
-string Cadastro_cliente::get_complemento(){
+string Cliente::get_complemento(){
 	return complemento;
 }
-void Cadastro_cliente::get_cliente(){
-	cout << "NOME COMPLETO : " << nome_completo <<endl;
-	cout << "CPF : " << cpf <<endl;
-	cout << "NUMERO PARA CONTATO : " << contato <<endl;
-	cout <<"RUA : " << rua <<endl;
-	cout <<"NUMERO DA CASA/APARTAMENTO : "<<numero<<endl;
-	cout <<"CEP : "<<cep<<endl;
-	cout <<"COMPLEMENTO: "<<complemento<<endl;
+bool Cliente::inserirCliente(Cliente paux)
+{
+	for (int i = 0;i < Clientes.size(); i++){
+		if(Clientes[i].get_nome() == paux.get_nome()){
+			return false;
+		}
+	}
+	Clientes.push_back(paux);
+	return true;
+}
+bool Cliente::verifica_cliente()
+{
+	return Clientes.empty();
+}
+void Cliente::get_cliente(){
+	cout << "NOME COMPLETO : " << get_nome() << endl;
+	cout << "CPF : " << get_cpf () << endl;
+	cout << "NUMERO PARA CONTATO : " << get_contato() << endl;
+	cout <<"RUA : " << get_rua() << endl;
+	cout <<"NUMERO DA CASA/APARTAMENTO : "<< get_numero()<< endl;
+	cout <<"CEP : "<<  get_cep() << endl;
+	cout <<"COMPLEMENTO: "<< get_complemento() << endl;
 }
