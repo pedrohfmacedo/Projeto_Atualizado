@@ -1,20 +1,24 @@
 #ifndef VENDEDOR_H
 #define VENDEDOR_H
 
-class Cadastro_vendedor
+class Vendedor
 {
 	string nome_vendedor;
 	string cpf;
 	int chaveAcesso;
 	
+   vector<Vendedor> Vendedores;
+   
 public:
 	//construtor
-	Cadastro_vendedor(string = " ", string = " ", int = 0);
+	Vendedor(string = " ", string = " ", int = 0);
 
 	void set_nome(string);
 	void set_cpf(string);
 	void set_chaveAcesso(int);
 	
+	bool cadastrar_vendedor(Vendedor);
+	bool verifica_login(int);
 	string get_nome();
 	string get_cpf();
 	int get_chaveAcesso();
