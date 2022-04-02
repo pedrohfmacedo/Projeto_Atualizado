@@ -1,7 +1,7 @@
 #ifndef CLIENTE_H
 #define CLIENTE_H
 
-class Cadastro_cliente{
+class Cliente{
 	//Dados da pessoa
 	string nome_completo;
 	string cpf;
@@ -12,9 +12,10 @@ class Cadastro_cliente{
 	string bairro;
 	int numero;
 	string complemento;
+	vector <Cliente> Clientes;
 public:
 	//Construtor para inicializar a variavel
-	Cadastro_cliente(string = " ",string = " ",string = " ",string = " ", string = " ", string = " ", int = 0, string  = " ");
+	Cliente(string = " ",string = " ",string = " ",string = " ", string = " ", string = " ", int = 0, string  = " ");
 	//Metodo para Cadastrar os dados
 	void set_nome(string);
 	void set_cpf(string);
@@ -33,7 +34,10 @@ public:
 	string get_bairro();
 	int  get_numero();
 	string get_complemento();
+	bool inserirCliente(Cliente);
 	void get_cliente();
+	bool verifica_cliente();
+	
 
 };
 #endif
